@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FWI Prediction</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f6fa;
+            margin: 0;
+            padding: 30px 15px;
+        }
+
+        .login {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #243b53;
+            margin-bottom: 25px;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        input {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccd6e0;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #2878d0;
+        }
+
+        .btn {
+            width: 100%;
+            margin-top: 22px;
+            padding: 13px;
+            background: #2878d0;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #195ca5;
+        }
+
+        .result {
+            margin-top: 22px;
+            padding: 15px;
+            background: #edf5ff;
+            border-radius: 6px;
+            text-align: center;
+            color: #243b53;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #2878d0;
+            text-decoration: none;
+        }
+
+        @media (max-width: 480px) {
+            .input-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login">
+        <h1>FWI Prediction</h1>
+
+        <!-- ADDED/CONFIRMED: Sends all nine inputs to Flask -->
+        <form action="{{ url_for('predict_datapoint') }}" method="POST">
+
+            <div class="input-grid">
+                <input type="number" step="any" name="Temperature"
+                       placeholder="Temperature" required>
+
+                <input type="number" step="any" name="RH"
+                       placeholder="Relative Humidity (RH)" required>
+
+                <input type="number" step="any" name="Ws"
+                       placeholder="Wind Speed (Ws)" required>
+
+                <input type="number" step="any" name="Rain"
+                       placeholder="Rain" required>
+
+                <input type="number" step="any" name="FFMC"
+                       placeholder="FFMC" required>
+
+                <input type="number" step="any" name="DMC"
+                       placeholder="DMC" required>
+
+                <input type="number" step="any" name="ISI"
+                       placeholder="ISI" required>
+
+                <input type="number" step="any" name="Classes"
+                       placeholder="Classes" required>
+
+                <input type="number" step="any" name="Region"
+                       placeholder="Region" required>
+            </div>
+
+            <button type="submit" class="btn">Predict FWI</button>
+        </form>
+
+        {% if results is defined %}
+        <div class="result">
+            <h2>FWI Prediction Result</h2>
+            <p>{{ results }}</p>
+        </div>
+        {% endif %}
+
+        <!-- ADDED: Returns to the welcome page -->
+        <a href="{{ url_for('index') }}" class="back">Back to Home</a>
+    </div>
+</body>
+</html>
